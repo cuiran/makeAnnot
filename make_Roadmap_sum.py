@@ -1,5 +1,7 @@
 import pandas as pd
 import argparse
+import subprocess
+import os
 
 def make_sum(args):
     dic = {
@@ -12,13 +14,20 @@ def make_sum(args):
     annot_folder = args.annot_folder
     chrom = args.chrom
     out_folder = args.out_folder
+    dir_path = os.path.dirname(os.path.realpath(__file__))
     for mark in dic:
         print('making '+mark+' sum annotations')
-        dfs = [pd.read_csv(annot_folder+'Roadmap.'+str(i)+'.'+chrom+'.annot.gz',delim_whitespace=True) for i in dic[mark]]
-        df = pd.concat(dfs,axis=1)
+        # this is for annotations that are not thinannots
+        subprocess.call([dir_path+'/concat_annots.sh',str(chrom),str(dic[mark][0]),
+            str(dic[mark][-1]),
+            mark,annot_folder])
+        df = pd.read_csv(mark+'.annot',delim_whitespace=True)
         col_sum = df.sum(axis=1)
-        sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-        sum_df.to_csv(out_folder+'Roadmap.'+mark+'.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+        sampledf = pd.read_csv(annot_folder+'Roadmap.1.'+chrom+'.annot.gz',delim_whitespace=True)
+        sumdf = pd.DataFrame(col_sum,columns=['ANNOT'])
+        sumdf[['CHR','SNP','CM','BP']] = sampledf[['CHR','SNP','CM','BP']]
+        sumdf = sumdf[['CHR','SNP','CM','BP','ANNOT']]
+        sumdf.to_csv(out_folder+'Roadmap.'+mark+'.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
         
 
