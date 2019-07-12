@@ -6,13 +6,14 @@ def DNase(args):
     print('making DNase sum annotations')
     annot_folder = args.annot_folder
     chrom = args.chrom
+    out_folder = args.out_folder
     # DNase: Roadmap.1 - Roadmap.34
     # assuming they are thin annotations
     dfs = [pd.read_csv(annot_folder+'Roadmap.'+str(i)+'.'+chrom+'.annot.gz',delim_whitespace=True) for i in range(1,35)]
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.DNase.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.DNase.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 def H3K27ac(args):
@@ -24,7 +25,7 @@ def H3K27ac(args):
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.H3K27ac.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.H3K27ac.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 def H3K36me3(args):
@@ -36,7 +37,7 @@ def H3K36me3(args):
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.H3K36me3.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.H3K36me3.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 def H3K4me1(args):
@@ -48,7 +49,7 @@ def H3K4me1(args):
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.H3K4me1.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.H3K4me1.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 def H3K4me3(args):
@@ -60,7 +61,7 @@ def H3K4me3(args):
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.H3K4me3.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.H3K4me3.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 def H3K9ac(args):
@@ -72,7 +73,7 @@ def H3K9ac(args):
     df = pd.concat(dfs,axis=1)
     col_sum = df.sum(axis=1)
     sum_df = pd.DataFrame(col_sum,columns=['ANNOT'])
-    sum_df.to_csv(annot_folder+'Roadmap.H3K9ac.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
+    sum_df.to_csv(out_folder+'Roadmap.H3K9ac.sum.'+chrom+'.annot.gz',sep='\t',index=False,compression='gzip')
     return
 
 
@@ -80,6 +81,7 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--annot-folder',help='folder containing all relevant annotations')
     parser.add_argument('--chrom',help='which chromosome')
+    parser.add_argument('--out-folder')
     args = parser.parse_args()
  
     DNase(args)
