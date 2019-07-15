@@ -22,7 +22,7 @@ def make_sum(args):
         print('concatenating...')
         subprocess.call([dir_path+'/concat_annots.sh',str(chrom),str(dic[mark][0]),
             str(dic[mark][-1]),
-            mark,annot_folder])
+            mark,annot_folder,out_folder])
         df = pd.read_csv(mark+'.annot',delim_whitespace=True)
         print('shape of the concatenated dataframe',df.shape)
         print('summing up columns')
