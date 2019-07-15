@@ -7,12 +7,14 @@ NAME=$4
 DIR=$5
 OUT=$6
 
-command=paste
- 
-for i in ${DIR}Roadmap.{$S..$E}.$CHR.annot.gz
-    do command="$command <(gzip -cd $i | cut -f5)"
+
+for ((i=$S;i<=$E;i++)); do
+    gunzip ${DIR}Roadmap.$i.$CHR.annot.gz
+    cut -f5 ${DIR}Roadmap.$i.$CHR.annot > ${DIR}Roadmap.$i.$CHR.thin.annot
 done
 
-eval $command > ${OUT}${NAME}.concatenated.$CHR.annot
-
+paste ${DIR}Roadmap.*.$CHR.thin.annot > ${OUT}${NAME}.concatenated.$CHR.annot
+rm ${DIR}Roadmap.*.$CHR.thin.annot
 echo ${OUT}${NAME}.concatenated.$CHR.annot
+
+
