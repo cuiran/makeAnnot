@@ -27,7 +27,7 @@ def make_sum(args):
         print('shape of the concatenated dataframe',df.shape)
         print('summing up columns')
         col_sum = df.sum(axis=1)
-        if os.path.exists(annot_folder+'Roadmap.1.'+chrom+'.annot.gz')
+        if os.path.exists(annot_folder+'Roadmap.1.'+chrom+'.annot.gz'):
             sampledf = pd.read_csv(annot_folder+'Roadmap.1.'+chrom+'.annot.gz',delim_whitespace=True)
         else:
             sampledf = pd.read_csv(annot_folder+'Roadmap.1.'+chrom+'.annot',delim_whitespace=True)
