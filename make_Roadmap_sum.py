@@ -19,12 +19,16 @@ def make_sum(args):
     for mark in dic:
         print('making '+mark+' sum annotations')
         # this is for annotations that are not thinannots
+        print('concatenating...')
         subprocess.call([dir_path+'/concat_annots.sh',str(chrom),str(dic[mark][0]),
             str(dic[mark][-1]),
             mark,annot_folder])
         df = pd.read_csv(mark+'.annot',delim_whitespace=True)
+        print('shape of the concatenated dataframe',df.shape)
+        print('summing up columns')
         col_sum = df.sum(axis=1)
         sampledf = pd.read_csv(annot_folder+'Roadmap.1.'+chrom+'.annot.gz',delim_whitespace=True)
+        print('shape of sample dataframe',sampledf.shape)
         sumdf = pd.DataFrame(col_sum,columns=['ANNOT'])
         sumdf[['CHR','SNP','CM','BP']] = sampledf[['CHR','SNP','CM','BP']]
         sumdf = sumdf[['CHR','SNP','CM','BP','ANNOT']]
