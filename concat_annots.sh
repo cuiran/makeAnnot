@@ -11,4 +11,4 @@ command=paste
 for i in ${DIR}Roadmap.{$S..$E}.$CHR.annot.gz; do
     command="$command <(gzip -cd $i | cut -f5)"
 done
-eval $command > ${OUR}$NAME.annot
+eval $command > ${OUR}$NAME.concatenated.$CHR.annot
