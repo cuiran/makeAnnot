@@ -66,7 +66,7 @@ def make_annot_files(args,df,binary):
         iter_df = [['chr'+(str(x1).lstrip('chr')), int(x2), int(x3),'annot',str(x4)] for (x1,x2,x3,x4) in np.array(df[['CHR', 'START', 'END','ANNOT']])]
         genesetbed = BedTool(iter_df).sort()
     
-    print('making annot file')
+    print('making annot file for chromosome {}'.format(args.chrom))
     df_bim = pd.read_csv(args.bfile_chr + str(args.chrom) + '.bim',
         delim_whitespace=True, usecols = [0,1,2,3], names = ['CHR','SNP','CM','BP'])
     iter_bim = [['chr'+str(x1), x2, x2] for (x1, x2) in np.array(df_bim[['CHR', 'BP']])]
