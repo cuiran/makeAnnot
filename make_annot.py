@@ -12,7 +12,7 @@ import logging
 import pdb
 
 def bed_to_bed(args):
-    print('making bed file')
+    print('making bed file for {}'.format(args.bed_file.split('/')[-1])) 
     df = pd.read_csv(args.bed_file,sep='\t',header=None)
     if df.shape[1]==3:
         df.columns=['CHR','START','END']
@@ -69,7 +69,7 @@ def make_annot_files(args,df,binary):
     print('making annot file for chromosome {}'.format(args.chrom))
     df_bim = pd.read_csv(args.bfile_chr + str(args.chrom) + '.bim',
         delim_whitespace=True, usecols = [0,1,2,3], names = ['CHR','SNP','CM','BP'])
-    iter_bim = [['chr'+str(x1), x2, x2] for (x1, x2) in np.array(df_bim[['CHR', 'BP']])]
+    iter_bim = [['chr'+str(x1), int(x2), int(x2)] for (x1, x2) in np.array(df_bim[['CHR', 'BP']])]
     bimbed = BedTool(iter_bim).sort()
     if binary == True:
         annotbed = bimbed.intersect(genesetbed)
@@ -95,8 +95,7 @@ def make_annot_files(args,df,binary):
             cont_annot.to_csv(f,sep="\t",index=False,header=None)
     
     annot_file = args.prefix+'.'+str(args.chrom)+'.annot.gz' 
-    with gzip.open(annot_file, 'wb') as f:
-        df_annot.to_csv(f, sep = "\t", index = False)
+    df_annot.to_csv(annot_file, sep = "\t", index = False, compression='gzip')
 
 
 if __name__ == '__main__':
