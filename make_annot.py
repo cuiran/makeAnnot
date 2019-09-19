@@ -91,8 +91,7 @@ def make_annot_files(args,df,binary):
         df_bim['ANNOT'] = df_annot[['ANNOT']]
         cont_annot = df_bim[['SNP','ANNOT']]
         cont_annot_file = args.prefix+'.'+str(args.chrom)+'.cont_bin.gz'
-        with gzip.open(cont_annot_file,'wb') as f:
-            cont_annot.to_csv(f,sep="\t",index=False,header=None)
+        cont_annot.to_csv(annot_count_file,sep="\t",index=False,header=None,compression='gzip')
     
     annot_file = args.prefix+'.'+str(args.chrom)+'.annot.gz' 
     df_annot.to_csv(annot_file, sep = "\t", index = False, compression='gzip')
