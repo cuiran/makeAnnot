@@ -10,6 +10,7 @@ import json
 import os
 import logging
 import pdb
+import sys
 
 def bed_to_bed(args):
     print('making bed file for {}'.format(args.bed_file.split('/')[-1])) 
@@ -85,6 +86,10 @@ def make_annot_files(args,df,binary):
         annot = annotbed.name
         df_int = pd.DataFrame({'BP': bp, 'ANNOT':annot})
         df_annot = pd.merge(df_bim, df_int, how='left', on='BP')
+        df_annot.drop_duplicates(inplace=True)
+        if df_annot.shape[0]!=df_bim.shape[0]:
+            print('{} SNPs in annotation df, whereas {} SNPs in bim file'.format(df_annot.shape[0],df_bim.shape[0]))
+            sys.exit(1)
         num_snps_final = df_annot.ANNOT.count()
         df_annot.fillna(0, inplace=True)
         df_annot = df_annot[['ANNOT']].astype(float)
